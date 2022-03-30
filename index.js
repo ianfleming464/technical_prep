@@ -1,26 +1,30 @@
-const express = require('express');
+const express = require('express'),
+  morgan = require('morgan'),
+  bodyParser = require('body-parser');
+// methodOverride = require('method-override');
+
 const app = express();
 
-let topBooks = [
-  {
-    title: "Harry Potter and the Sorcerer's Stone",
-    author: 'J.K. Rowling',
-  },
-  {
-    title: 'Lord of the Rings',
-    author: 'J.R.R. Tolkien',
-  },
-  {
-    title: 'Twilight',
-    author: 'Stephanie Meyer',
-  },
-];
+app.use(morgan('common'));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
+
+app.use(bodyParser.json());
+// app.use(methodOverride());
+app.use('/documentation', express.static('public'));
+app.use((error, request, response, next) => {
+  console.error(error.stack);
+  response.status(500).send('Something broke!');
+});
 
 // GET requests, which all take the following format:
 // app.METHOD(PATH, HANDLER)
 // Main page
 app.get('/', (request, response) => {
-  response.send('Welcome to my book club!');
+  response.send('default textual response of my choosing');
 });
 // returns a file
 app.get('/documentation', (request, response) => {
