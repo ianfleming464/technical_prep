@@ -1,0 +1,25 @@
+{
+  "name": "technical_prep",
+  "version": "1.0.0",
+  "description": "Backend revision + frontend polishing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianfleming464/technical_prep.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianfleming464/technical_prep/issues"
+  },
+  "homepage": "https://github.com/ianfleming464/technical_prep#readme",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3"
+  }
+}
