@@ -5,6 +5,7 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   uuid = require('uuid'),
   app = express();
+const router = express.Router({ caseSensitive: false });
 
 let movies = [
   {
@@ -79,23 +80,18 @@ let movies = [
   },
 ];
 
-app.use(morgan('common'));
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
-);
-
-app.use(bodyParser.json());
-// app.use(methodOverride());
-app.use('/documentation', express.static('public'));
+app.use(morgan('common')); // Logging with Morgan
+app.use(bodyParser.json()); // Using bodyParser
+app.use('/documentation', express.static('public')); // public folder for documentation
 app.use((error, request, response, next) => {
+  //error handling
   console.error(error.stack);
   response.status(500).send('Something broke!');
 });
 
 // GET requests, which all take the following format:
 // app.METHOD(PATH, HANDLER)
+
 // Main page
 app.get('/', (request, response) => {
   response.send('Root Route');
@@ -103,16 +99,14 @@ app.get('/', (request, response) => {
 
 // Get and display the movies from the above movie variable
 app.get('/movies', (request, response) => {
-  response.json(movies);
+  response.send(movies);
 });
 
 // by title
 app.get('/movies/:title', (request, response) => {
-  response.json(
-    movies.find((movie) => {
-      return movie.title === request.params.title;
-    }),
-  );
+  let movie = movies.find((movie) => movie.title === request.params.title);
+  if (!movie) response.status(404).send('Movie does not exist in database');
+  response.send(movie);
 });
 
 // returns a file
